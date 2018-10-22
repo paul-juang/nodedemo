@@ -90,6 +90,13 @@
   let imgUrl82 = "https://apod.nasa.gov/apod/image/1810/OrionRedBlue_Lindemann_1500.jpg";
   let imgUrl83 = "https://apod.nasa.gov/apod/image/1810/M16_Klinger_3595.jpg";
   let imgUrl84 = "https://apod.nasa.gov/apod/image/1810/JupiterUV_HubbleSchmidt_1280.jpg";
+  let imgUrl85 = "https://apod.nasa.gov/apod/image/1810/M015-2_Hubl.jpg";
+  let imgUrl86 = "https://apod.nasa.gov/apod/image/1810/CTA_inauguratedSarahBrands.jpg";
+  let imgUrl87 = "https://apod.nasa.gov/apod/image/1810/360_archDHan.jpg";
+  let imgUrl88 = "https://apod.nasa.gov/apod/image/1810/NGC6543-BYU-L.jpg";
+  let imgUrl89 = "https://apod.nasa.gov/apod/image/1810/CometMeteorNebula_TSam_5310.jpg";
+
+
 
   let imgUrlArr =[
   imgUrl1,imgUrl2,imgUrl3,imgUrl4,imgUrl5,imgUrl6,imgUrl7,imgUrl8,imgUrl9,imgUrl10,
@@ -100,7 +107,7 @@
   imgUrl54,imgUrl21,imgUrl34,imgUrl55,imgUrl56,imgUrl57,imgUrl58,imgUrl59,imgUrl60,imgUrl61,
   imgUrl62,imgUrl63,imgUrl64,imgUrl65,imgUrl66,imgUrl67,imgUrl68,imgUrl69,imgUrl70,imgUrl71,
   imgUrl72,imgUrl73,imgUrl74,imgUrl75,imgUrl76,imgUrl77,imgUrl78,imgUrl79,imgUrl80,imgUrl81,
-  imgUrl82,imgUrl83,imgUrl84
+  imgUrl82,imgUrl83,imgUrl84,imgUrl85,imgUrl86,imgUrl87,imgUrl88,imgUrl89
 
   ];
 
@@ -137,8 +144,8 @@ $(function() {
    
    .append($('<li>').attr({class:'dropdown',id:"accounting"})
     .append(
-     $('<a>').attr({href:'#',class:'dropdown-toggle','data-toggle':"dropdown"}).text('Accounting') 		
-     .append($('<i>').attr({class:'fa fa-chevron-down'}))						    
+     $('<a>').attr({href:'#',class:'dropdown-toggle','data-toggle':"dropdown"}).text('Accounting')    
+     .append($('<i>').attr({class:'fa fa-chevron-down'}))               
      ))
 
   
@@ -191,7 +198,7 @@ $(function() {
      )
    .appendTo($('#accountingMenu'))      
 
-  }		    
+  }       
 
 
   let li3 = $("#tree")
