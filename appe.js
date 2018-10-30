@@ -42,7 +42,7 @@ app.use(bodyParser.json());
 
 //home page
 app.get("/",function(req, res) {
- res.render("homec");
+ res.render("homee");
 });
 
 
@@ -717,7 +717,7 @@ app.get("/loto539",function(req, res) {
 });
 
 app.get("/loto649",function(req, res) {
-  res.render("loto649");
+  res.render("loto649e");
 });
 
 /*

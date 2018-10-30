@@ -9,7 +9,6 @@ const path = require('path');
 
 const app = express();
 
-/*
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
@@ -20,7 +19,6 @@ mongoose.connect('mongodb://localhost:27017/testdatabase',{useNewUrlParser:true}
     console.log("Database connected ...");
 });
 
-*/
 const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3000;
@@ -41,8 +39,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 //home page
-app.get("/",function(req, res) {
- res.render("homec");
+app.get("/home",function(req, res) {
+ res.render("home");
 });
 
 
@@ -61,7 +59,7 @@ app.get("/ledger",function(req, res) {
   res.render("ledger");
 });
 
-/*
+
 app.post("/ledger",function(req, res) {
 
   let arrOfobj = req.body.arrOfobj;
@@ -591,7 +589,6 @@ function(err,results) {
  })
 })
 
-*/
 
 //generalledger
 app.get("/generalledger",function(req, res) {

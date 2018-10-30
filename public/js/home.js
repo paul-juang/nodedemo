@@ -89,6 +89,23 @@
   let imgUrl82 = "https://apod.nasa.gov/apod/image/1810/OrionRedBlue_Lindemann_1500.jpg";
   let imgUrl83 = "https://apod.nasa.gov/apod/image/1810/M16_Klinger_3595.jpg";
   let imgUrl84 = "https://apod.nasa.gov/apod/image/1810/JupiterUV_HubbleSchmidt_1280.jpg";
+  let imgUrl85 = "https://apod.nasa.gov/apod/image/1810/M015-2_Hubl.jpg";
+  let imgUrl86 = "https://apod.nasa.gov/apod/image/1810/CTA_inauguratedSarahBrands.jpg";
+  let imgUrl87 = "https://apod.nasa.gov/apod/image/1810/360_archDHan.jpg";
+  let imgUrl88 = "https://apod.nasa.gov/apod/image/1810/NGC6543-BYU-L.jpg";
+  let imgUrl89 = "https://apod.nasa.gov/apod/image/1810/CometMeteorNebula_TSam_5310.jpg";
+  let imgUrl90 = "https://apod.nasa.gov/apod/image/1810/surveyor3_ap12c_1488.jpg";
+  
+  let imgUrl91 = "https://apod.nasa.gov/apod/image/1810/HyperionGalaxies_ESO_6000.jpg";
+  let imgUrl92 = "https://apod.nasa.gov/apod/image/1810/LightPillars_Brady_4000.jpg";
+  let imgUrl93 = "https://apod.nasa.gov/apod/image/1810/Milne_B150_FIN_APOD2048.jpg";
+  let imgUrl94 = "https://apod.nasa.gov/apod/image/1810/IC59IC63crawford.jpg";
+  let imgUrl95 = "https://apod.nasa.gov/apod/image/1810/airglow_banff_beletsky.jpg";
+  let imgUrl96 = "https://apod.nasa.gov/apod/image/1810/EarthUV_Apollo16_1719.jpg";
+  let imgUrl97 = "https://apod.nasa.gov/apod/image/1810/PGC42871_HubblePestana_5051.jpg";
+  let imgUrl98 = "https://apod.nasa.gov/apod/image/1810/Orionids_Hao_2324.jpg";
+
+
 
   let imgUrlArr =[
   imgUrl1,imgUrl2,imgUrl3,imgUrl4,imgUrl5,imgUrl6,imgUrl7,imgUrl8,imgUrl9,imgUrl10,
@@ -99,7 +116,8 @@
   imgUrl54,imgUrl21,imgUrl34,imgUrl55,imgUrl56,imgUrl57,imgUrl58,imgUrl59,imgUrl60,imgUrl61,
   imgUrl62,imgUrl63,imgUrl64,imgUrl65,imgUrl66,imgUrl67,imgUrl68,imgUrl69,imgUrl70,imgUrl71,
   imgUrl72,imgUrl73,imgUrl74,imgUrl75,imgUrl76,imgUrl77,imgUrl78,imgUrl79,imgUrl80,imgUrl81,
-  imgUrl82,imgUrl83,imgUrl84
+  imgUrl82,imgUrl83,imgUrl84,imgUrl85,imgUrl86,imgUrl87,imgUrl88,imgUrl89,imgUrl90,imgUrl91,
+  imgUrl92,imgUrl93,imgUrl94,imgUrl95,imgUrl96,imgUrl97,imgUrl98
 
   ];
 
@@ -154,11 +172,11 @@ $(function() {
     .append($('<a>').attr({href:'/imggallery', id:"homeRef"}).text('太空圖集'))
     )
 
-/*
-   .append($('<li>')
-    .append($('<a>').attr({href:'/starwar', id:"homeRef"}).text('星際大戰'))
-    )
-*/
+
+  // .append($('<li>')
+  //   .append($('<a>').attr({href:'/starwar', id:"homeRef"}).text('星際大戰'))
+  //  )
+
 
    .append($('<li>').attr({class:'dropdown',id:"loto"})
     .append(
@@ -198,11 +216,15 @@ $(function() {
    .appendTo(li3)
 
    let treeArr = [
-     "傳銷登錄","傳銷細目","列印圖表"
+      "輸入資料","列印安置","列印局部",'列印引導'
    ]
 
+ //let treeHref = [
+//"/treedata","/drawtreex","/drawtree"
+//]
+
    let treeHref = [
-     "/treedata","/drawtreex","/drawtree"
+     "/treedata","/drawtree","/drawtreex","/agkdraw"
    ]
 
    for (let i = 0; i < treeArr.length; i++) {

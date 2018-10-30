@@ -1,4 +1,3 @@
-//demo english version
   let imgUrl1 = "https://apod.nasa.gov/apod/image/1807/bracewellradiosundial.jpg"; 
   let imgUrl2 = "https://apod.nasa.gov/apod/image/1807/M57Ring_HubbleGendler_3000.jpg";//***
   let imgUrl3 = "https://apod.nasa.gov/apod/image/1807/QuasarJetDrawing_DESY_3508.jpg"; //*
@@ -96,7 +95,7 @@
   let imgUrl88 = "https://apod.nasa.gov/apod/image/1810/NGC6543-BYU-L.jpg";
   let imgUrl89 = "https://apod.nasa.gov/apod/image/1810/CometMeteorNebula_TSam_5310.jpg";
   let imgUrl90 = "https://apod.nasa.gov/apod/image/1810/surveyor3_ap12c_1488.jpg";
-
+  
   let imgUrl91 = "https://apod.nasa.gov/apod/image/1810/HyperionGalaxies_ESO_6000.jpg";
   let imgUrl92 = "https://apod.nasa.gov/apod/image/1810/LightPillars_Brady_4000.jpg";
   let imgUrl93 = "https://apod.nasa.gov/apod/image/1810/Milne_B150_FIN_APOD2048.jpg";
@@ -105,6 +104,7 @@
   let imgUrl96 = "https://apod.nasa.gov/apod/image/1810/EarthUV_Apollo16_1719.jpg";
   let imgUrl97 = "https://apod.nasa.gov/apod/image/1810/PGC42871_HubblePestana_5051.jpg";
   let imgUrl98 = "https://apod.nasa.gov/apod/image/1810/Orionids_Hao_2324.jpg";
+
 
 
   let imgUrlArr =[
@@ -149,38 +149,38 @@ $(function() {
    $('<ul>').attr({class:"nav navbar-nav navbar-center"}) //right
 
    .append($('<li>')
-    .append($('<a>').attr({href:'/', id:"homeRef"}).text('Home'))
+    .append($('<a>').attr({href:'/', id:"homeRef"}).text('首頁'))
     )
    
    .append($('<li>').attr({class:'dropdown',id:"accounting"})
     .append(
-     $('<a>').attr({href:'#',class:'dropdown-toggle','data-toggle':"dropdown"}).text('Accounting') 		
+     $('<a>').attr({href:'#',class:'dropdown-toggle','data-toggle':"dropdown"}).text('會計系統') 		
      .append($('<i>').attr({class:'fa fa-chevron-down'}))						    
      ))
 
   
    .append($('<li>').attr({class:'dropdown',id:"tree"})
     .append(
-     $('<a>').attr({href:'#',class:'dropdown-toggle','data-toggle':"dropdown"}).text('Operations')    
+     $('<a>').attr({href:'#',class:'dropdown-toggle','data-toggle':"dropdown"}).text('金融傳銷')    
      .append($('<i>').attr({class:'fa fa-chevron-down'}))               
      ))
    .append($('<li>')
-    .append($('<a>').attr({href:'/d3test', id:"homeRef"}).text('Graphs'))
+    .append($('<a>').attr({href:'/d3test', id:"homeRef"}).text('統計圖表'))
     )
 
    .append($('<li>')
-    .append($('<a>').attr({href:'/imggallery', id:"homeRef"}).text('Nasa Images'))
+    .append($('<a>').attr({href:'/imggallery', id:"homeRef"}).text('太空圖集'))
     )
 
-/*
-   .append($('<li>')
-    .append($('<a>').attr({href:'/starwar', id:"homeRef"}).text('星際大戰'))
-    )
-*/
+
+  // .append($('<li>')
+  //   .append($('<a>').attr({href:'/starwar', id:"homeRef"}).text('星際大戰'))
+  //  )
+
 
    .append($('<li>').attr({class:'dropdown',id:"loto"})
     .append(
-     $('<a>').attr({href:'#',class:'dropdown-toggle','data-toggle':"dropdown"}).text('Lottery')    
+     $('<a>').attr({href:'#',class:'dropdown-toggle','data-toggle':"dropdown"}).text('台灣彩券')    
      .append($('<i>').attr({class:'fa fa-chevron-down'}))               
      ))
 
@@ -194,12 +194,12 @@ $(function() {
 
    let accountingArr = [
 
-      "General Ledger","Cash Receipt","Cash Disbursement","Voucher","Trial Balance","Income Statement","Balance Sheet"
- 
+      "普通分錄","調整分錄","總帳目表","試算表","損益表","資產負債表","會計科目"
+
    ]
 
    let accountingHref = [
-     "#","#","#","#","#","#","#"
+     "/generalledger","/adjustledger","/ledgerdraw","/trialbalance","/incomestatement","/balancesheet","/setacctchart"
    ]
 
    for (let i = 0; i < accountingArr.length; i++) {
@@ -216,13 +216,15 @@ $(function() {
    .appendTo(li3)
 
    let treeArr = [
-     "Vendors","Customers","Purchase","Receiving","Invoicing","Inventory"
-
+     "傳銷登錄","傳銷細目","列印圖表"
    ]
 
-   let treeHref = [
-     "#","#","#","#","#","#"
+ //let treeHref = [
+//"/treedata","/drawtreex","/drawtree"
+//]
 
+   let treeHref = [
+     "#","#","#"
    ]
 
    for (let i = 0; i < treeArr.length; i++) {
@@ -238,11 +240,11 @@ $(function() {
    .appendTo(li4)
 
    let lotoArr = [
-     "California","New York","ect."
+     "大樂透","大福彩","威力彩","今彩539","49樂合彩","39樂合彩","38樂合彩"
    ]
 
    let lotoHref = [
-     "/loto649","/loto649","/loto649"
+     "/loto649","/loto649","/loto649","/loto539","/loto539","/loto539","/loto539"
    ]
 
    for (let i = 0; i < lotoArr.length; i++) {
