@@ -104,8 +104,11 @@
   let imgUrl96 = "https://apod.nasa.gov/apod/image/1810/EarthUV_Apollo16_1719.jpg";
   let imgUrl97 = "https://apod.nasa.gov/apod/image/1810/PGC42871_HubblePestana_5051.jpg";
   let imgUrl98 = "https://apod.nasa.gov/apod/image/1810/Orionids_Hao_2324.jpg";
+  let imgUrl99 = "https://apod.nasa.gov/apod/image/1811/RLeporisMP.jpg";
+  let imgUrl100 = "https://apod.nasa.gov/apod/image/1811/CygnusSupernovaremnantW63.jpg";
 
-
+  let imgUrl101 = "https://apod.nasa.gov/apod/image/1811/LOVE1.jpg";
+  let imgUrl102 = "https://apod.nasa.gov/apod/image/1811/GenesisImpact_nasa_800.jpg";
 
   let imgUrlArr =[
   imgUrl1,imgUrl2,imgUrl3,imgUrl4,imgUrl5,imgUrl6,imgUrl7,imgUrl8,imgUrl9,imgUrl10,
@@ -117,8 +120,8 @@
   imgUrl62,imgUrl63,imgUrl64,imgUrl65,imgUrl66,imgUrl67,imgUrl68,imgUrl69,imgUrl70,imgUrl71,
   imgUrl72,imgUrl73,imgUrl74,imgUrl75,imgUrl76,imgUrl77,imgUrl78,imgUrl79,imgUrl80,imgUrl81,
   imgUrl82,imgUrl83,imgUrl84,imgUrl85,imgUrl86,imgUrl87,imgUrl88,imgUrl89,imgUrl90,imgUrl91,
-  imgUrl92,imgUrl93,imgUrl94,imgUrl95,imgUrl96,imgUrl97,imgUrl98
-
+  imgUrl92,imgUrl93,imgUrl94,imgUrl95,imgUrl96,imgUrl97,imgUrl98,imgUrl99,imgUrl100,
+  imgUrl101,imgUrl102
   ];
 
 $(function() { 
