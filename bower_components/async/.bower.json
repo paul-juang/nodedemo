@@ -4,7 +4,7 @@
   "ignore": [
     "bower_components",
     "lib",
-    "mocha_test",
+    "test",
     "node_modules",
     "perf",
     "support",
@@ -15,15 +15,15 @@
     "Makefile"
   ],
   "homepage": "https://github.com/caolan/async",
-  "version": "2.6.1",
-  "_release": "2.6.1",
+  "version": "3.2.0",
+  "_release": "3.2.0",
   "_resolution": {
     "type": "version",
-    "tag": "v2.6.1",
-    "commit": "2bb42bbddb0ddd77bb1cec50456ed3d52b0bfd50"
+    "tag": "v3.2.0",
+    "commit": "ec338a0394e65096daf9621d5b29f6c6188a391a"
   },
   "_source": "https://github.com/caolan/async.git",
-  "_target": "^2.6.1",
+  "_target": "^3.2.0",
   "_originalSource": "async",
   "_direct": true
 }

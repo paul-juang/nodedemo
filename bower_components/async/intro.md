@@ -9,19 +9,20 @@
 
 Async is a utility module which provides straight-forward, powerful functions
 for working with asynchronous JavaScript. Although originally designed for
-use with [Node.js](https://nodejs.org/) and installable via `npm install --save async`,
+use with [Node.js](https://nodejs.org/) and installable via `npm i async`,
 it can also be used directly in the browser.
 
 Async is also installable via:
 
 - [yarn](https://yarnpkg.com/en/): `yarn add async`
-- [bower](http://bower.io/): `bower install async`
 
 Async provides around 70 functions that include the usual 'functional'
 suspects (`map`, `reduce`, `filter`, `each`…) as well as some common patterns
 for asynchronous control flow (`parallel`, `series`, `waterfall`…). All these
 functions assume you follow the Node.js convention of providing a single
 callback as the last argument of your asynchronous function -- a callback which expects an Error as its first argument -- and calling the callback once.
+
+You can also pass `async` functions to Async methods, instead of callback-accepting functions.  For more information, see [AsyncFunction](global.html#AsyncFunction)
 
 
 ## Quick Examples
@@ -124,9 +125,9 @@ It is always good practice to `return callback(err, result)`  whenever a callbac
 Async accepts `async` functions wherever we accept a Node-style callback function.  However, we do not pass them a callback, and instead use the return value and handle any promise rejections or errors thrown.
 
 ```js
-async.mapLimit(files, async file => { // <- no callback!
+async.mapLimit(files, 10, async file => { // <- no callback!
     const text = await util.promisify(fs.readFile)(dir + file, 'utf8')
-    const body = JSON.parse(text) // <- a parse error herre will be caught automatically
+    const body = JSON.parse(text) // <- a parse error here will be caught automatically
     if (!(await checkValidity(body))) {
         throw new Error(`${file} has invalid contents`) // <- this error will also be caught
     }
@@ -173,6 +174,44 @@ async.map([1, 2, 3], AsyncSquaringLibrary.square.bind(AsyncSquaringLibrary), fun
 });
 ```
 
+### Subtle Memory Leaks
+
+There are cases where you might want to exit early from async flow, when calling an Async method inside another async function:
+
+```javascript
+function myFunction (args, outerCallback) {
+    async.waterfall([
+        //...
+        function (arg, next) {
+            if (someImportantCondition()) {
+                return outerCallback(null)
+            }
+        },
+        function (arg, next) {/*...*/}
+    ], function done (err) {
+        //...
+    })
+}
+```
+
+Something happened in a waterfall where you want to skip the rest of the execution, so you call an outer callack.  However, Async will still wait for that inner `next` callback to be called, leaving some closure scope allocated.
+
+As of version 3.0, you can call any Async callback with `false` as the `error` argument, and the rest of the execution of the Async method will be stopped or ignored.
+
+```javascript
+        function (arg, next) {
+            if (someImportantCondition()) {
+                outerCallback(null)
+                return next(false) // ← signal that you called an outer callback
+            }
+        },
+```
+
+### Mutating collections while processing them
+
+If you pass an array to a collection method (such as `each`, `mapLimit`, or `filterSeries`), and then attempt to `push`, `pop`, or `splice` additional items on to the array, this could lead to unexpected or undefined behavior.  Async will iterate until the original `length` of the array is met, and the indexes of items `pop()`ed or `splice()`d could already have been processed. Therefore, it is not recommended to modify the array after Async has begun iterating over it.  If you do need to `push`, `pop`, or `splice`, use a `queue` instead.
+
+
 ## Download
 
 The source is available for download from
@@ -180,13 +219,7 @@ The source is available for download from
 Alternatively, you can install using npm:
 
 ```bash
-$ npm install --save async
-```
-
-As well as using Bower:
-
-```bash
-$ bower install async
+$ npm i async
 ```
 
 You can then `require()` async as normal:
@@ -206,7 +239,9 @@ __Development:__ [async.js](https://raw.githubusercontent.com/caolan/async/maste
 
 ### In the Browser
 
-Async should work in any ES5 environment (IE9 and above).
+Async should work in any ES2015 environment (Node 6+ and all modern browsers).
+
+If you want to use Async in an older environment, (e.g. Node 4, IE11) you will have to transpile.
 
 Usage:
 
@@ -226,15 +261,35 @@ included in the `/dist` folder. Async can also be found on the [jsDelivr CDN](ht
 
 ### ES Modules
 
-We also provide Async as a collection of ES2015 modules, in an alternative `async-es` package on npm.
+Async includes a `.mjs` version that should automatically be used by compatible bundlers such as Webpack or Rollup, anything that uses the `module` field of the `package.json`.
+
+We also provide Async as a collection of purely ES2015 modules, in an alternative `async-es` package on npm.
 
 ```bash
-$ npm install --save async-es
+$ npm install async-es
 ```
 
 ```js
 import waterfall from 'async-es/waterfall';
 import async from 'async-es';
+```
+
+### Typescript
+
+There are third-party type definitions for Async.
+
+```
+npm i -D @types/async
+```
+
+It is recommended to target ES2017 or higher in your `tsconfig.json`, so `async` functions are preserved:
+
+```json
+{
+  "compilerOptions": {
+    "target": "es2017"
+  }
+}
 ```
 
 ## Other Libraries
