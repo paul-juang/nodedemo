@@ -1,6 +1,5 @@
 $(function() { 
-
- let imgUrl = "https://apod.nasa.gov/apod/image/1912/gem16otjcc2500.jpg";
+ let imgUrl = "https://apod.nasa.gov/apod/image/1902/MoonVenus_Dzierba_4386.jpg";
 
  let accountingArr = [
    {text:'普通分錄', href:'/ledger'},
@@ -38,10 +37,13 @@ $(function() {
  $('body').css({'background-image':`url(${imgUrl})`})
 
  $('<nav>').attr({class:"nav-bar"})
- .html(`        
+ .html(`  
+  <input type="checkbox" id="check">
+  <label for="check" class="checkbtn"><i class="fas fa-bars" id="bars"></i></label>    
   <ul>
     <li>
-      <a href='#'>會計系統<i class='fa fa-chevron-down'></i>
+      <a href='#'>會計系統
+        <i class='fa fa-caret-down'></i>
       </a>
       <ul>
         ${accountingArr.map(function(obj) {
@@ -55,7 +57,8 @@ $(function() {
     </li>
 
     <li>
-      <a href='#'>金融傳銷<i class='fa fa-chevron-down'></i>
+      <a href='#'>金融傳銷
+        <i class='fa fa-caret-down'></i>
       </a>
       <ul>
         ${treeArr.map(function(obj) {
@@ -77,7 +80,8 @@ $(function() {
     </li>
 
     <li>
-      <a href='#'>台灣彩券<i class='fa fa-chevron-down'></i>
+      <a href='#'>台灣彩券
+        <i class='fa fa-caret-down'></i>
       </a>
       <ul>
         ${lotoArr.map(function(obj) {
@@ -91,7 +95,8 @@ $(function() {
     </li>
 
     <li>
-      <a href='#'>統計預測<i class='fa fa-chevron-down'></i>
+      <a href='#'>統計預測
+        <i class='fa fa-caret-down'></i>
       </a>
       <ul>
         ${lotostatArr.map(function(obj) {
