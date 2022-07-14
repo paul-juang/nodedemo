@@ -1,14 +1,8 @@
 {
-  "name": "socket",
+  "name": "nodedemo",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-mongodb-session": "^2.4.1",
@@ -20,5 +14,21 @@
     "moment": "^2.29.1",
     "mongoose": "^5.13.2",
     "socket.io": "^4.1.2"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paul-juang/nodedemo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paul-juang/nodedemo/issues"
+  },
+  "homepage": "https://github.com/paul-juang/nodedemo#readme"
 }
