@@ -10,8 +10,25 @@ body {
 	padding:1.25em;
 }
 
+label {	
+	font-size: 1.0em;
+	font-weight: bold;
+}	
+
+#count {
+	width: 60px;
+	font-size: 1.0em;
+	font-weight: bold;
+}
 	
+h5 {
+	font-size: 1.2em;
+	text-align: center;
+	font-weight: bold;
+}
+
 h6 {
+	font-size: 1.0em;
 	text-align: center;
 	font-weight: bold;
 }
@@ -26,7 +43,8 @@ h6 {
 }	
 
 #get-button {
-	font-weight: 40;
+	font-size: 1.0em;
+	font-weight: bold;
 	text-align: center;
 }	
 
@@ -36,7 +54,7 @@ ul {
 
 li {
 	display: inline;
-	font-size: 0.8em;
+	font-size: 1.0em;
 	font-weight: bold;
 	margin-right:0.75em;	
 }

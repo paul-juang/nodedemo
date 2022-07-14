@@ -1,27 +1,36 @@
-
 const fs = require('fs');
 
 const async = require("async");
 
 const express = require('express');
 
+const session = require('express-session');
+
+const MongodbSession = require('connect-mongodb-session')(session);
+
 const path = require('path');
 
 const app = express();
 
-/*
 const mongoose = require('mongoose');
 
-mongoose.Promise = global.Promise;
-
+//mongoose.Promise = global.Promise;
 //mongoose.connect('mongodb://localhost:27017/testdatabase') 
-mongoose.connect('mongodb://localhost:27017/testdatabase',{useNewUrlParser:true}) 
-.then(function(){
-    console.log("Database connected ...");
-});
 
-*/
+const mongoUri = 'mongodb+srv://paul:Jyuhnbor1234@cluster0.khrxx.mongodb.net/nodeappdb?retryWrites=true&w=majority'||process.env.MONGODB_URI;
+
+mongoose.connect(mongoUri,{ 
+  useUnifiedTopology:true, 
+  useNewUrlParser:true,
+  useCreateIndex:true 
+})
+.then(()=> console.log("Database connected ..."))
+.catch((err)=> console.log(err))   
+
 const bodyParser = require('body-parser');
+
+//const cookieParser = require('cookie-parser');
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -40,11 +49,31 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(bodyParser.json());
 
-//home page
-app.get("/",function(req, res) {
- res.render("homec");
-});
+//app.use(cookieParser());
 
+const store = new MongodbSession({
+  uri: mongoUri,
+  collection: "sessions"
+})
+
+app.use(session({
+  secret: "hashsecret",
+  resave: false,
+  saveUninitialized: false,
+  store: store
+}));
+
+
+
+//use router
+app.use(require('./routes/tree'));
+app.use(require('./routes/loto'));
+app.use(require('./routes/session'));
+
+//home
+app.get("/home",function(req, res) {
+  res.render("homec"); 
+});
 
 //setacctchart   
 app.get("/setacctchart",function(req, res) {
@@ -596,29 +625,29 @@ function(err,results) {
 //generalledger
 app.get("/generalledger",function(req, res) {
   res.render("generalledger");
-  });
+});
 
 
 //adjustledger
 app.get("/adjustledger",function(req, res) {
   res.render("adjustledger");
-  });
-     
+});
+
 app.get("/ledgerdraw",function(req, res) {
   res.render("ledgerdraw");
-  });
+});
 
 app.get("/trialbalance",function(req, res) {
-    res.render("trialbalance");
-  });
+  res.render("trialbalance");
+});
 
 app.get("/incomestatement",function(req, res) {
-    res.render("incomestatement");
-  });
+  res.render("incomestatement");
+});
 
 app.get("/balancesheet",function(req, res) {
-    res.render("balancesheet");
-  });
+  res.render("balancesheet");
+});
 
 
 //account init
@@ -719,7 +748,29 @@ app.get("/loto539",function(req, res) {
 app.get("/loto649",function(req, res) {
   res.render("loto649");
 });
+app.get("/asloto649",function(req, res) {
+  res.render("asloto649");
+});
 
+app.get("/asloto539",function(req, res) {
+  res.render("asloto539");
+});
+
+app.get("/coloto649",function(req, res) {
+ res.render("coloto649");
+});
+
+app.get("/coloto539",function(req, res) {
+ res.render("coloto539");
+});
+
+app.get("/coloto649x",function(req, res) {
+ res.render("coloto649x");
+});
+
+app.get("/coloto539x",function(req, res) {
+ res.render("coloto539x");
+});
 /*
 //use app
 app.use(require('./routes/tree'));
@@ -732,6 +783,6 @@ app.use(require('./routes/loto'));
 */
 
 app.listen(PORT, function() {
-    console.log('Server listening on ' + PORT);
+  console.log('Server listening on ' + PORT);
 });
 

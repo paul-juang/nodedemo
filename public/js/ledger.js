@@ -91,6 +91,7 @@ $(function() {
         let sacctname = suggestion.data
         $("#acctno").val(sacctno);
         $("#acctname").val(sacctname);
+        $("#submit").prop("disabled",false);
         $("#dr").focus();
       }
     });
@@ -120,6 +121,8 @@ $(function() {
         }
     });
 
+    
+
     $("#acctname").on("focus",function() {
       $("#dr").focus();
     })
@@ -127,18 +130,22 @@ $(function() {
     $("#dr").on("keypress",function() {
        $("#dr").removeClass('danger');
        $("#cr").removeClass('danger');
+       $("#errmsg1").text('');
+
     })
 
     $("#cr").on("keypress",function() {
        $("#dr").removeClass('danger');
        $("#cr").removeClass('danger');
+       $("#errmsg1").text('');
     })
 
 
     let tempArr = [];
     
-    $('#create-form').on('submit', function(e) {
-      e.preventDefault();
+    //$('#create-form').on('submit', function(e) {      
+    //  e.preventDefault();
+    $('#submit').on('click', function() {
       let createacctno = $('#acctno').val().trim();
       let createacctname = $('#acctname').val().trim();
       let createdr = $('#dr').val().trim();

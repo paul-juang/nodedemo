@@ -1,21 +1,23 @@
 {
-  "name": "node web applications",
+  "name": "damp-everglades-70403",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "async": "^2.6.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "connect-mongodb-session": "^2.4.1",
     "ejs": "^2.6.1",
-    "express": "^4.16.3",
-    "git": "^0.1.5",
-    "html": "^1.0.0",
-    "mongoose": "^5.1.4",
-    "morgan": "^1.9.0"
-  }
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "mongoose": "^5.12.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC"
 }
