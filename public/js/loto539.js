@@ -2,6 +2,7 @@
 $(function() {
   //load loto539 from num539.js
   //console.log('loto539: ',loto539);
+  
   let preset = 60;
   $("#count").val(preset);
   $("h5").hide();
@@ -17,8 +18,6 @@ $(function() {
   $("#return").on("click",function() {
     $(this).attr("href","/")
   })
-
-//let option = "539",arrleng = 5, max = 40;
 
   $('#get-button').on('click', function() {
 
@@ -78,7 +77,7 @@ $(function() {
  
   p = 1/39 + 1/38 + 1/37 + 1/36 + 1/35;
  
-  mean = Math.floor(totalarr * p);
+  mean = Math.round(totalarr * p);
 
   let resultobj = numarr.reduce((obj,cn) => {
     let count = 0;
@@ -144,7 +143,7 @@ $(function() {
     document.querySelectorAll(".prob").forEach(function(td) {
       let txt = td.innerHTML;
       txt = Number(txt);
-      if (txt >= 0.89) {
+      if (txt >= 0.90) {
         td.style.color = "red";
       }
     })

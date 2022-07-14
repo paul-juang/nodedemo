@@ -1,4 +1,4 @@
-//load num649.js
+//load num539.js
 $(function() { 
   $("<a>").attr({id:"return",title:"返回首頁"})
   .css({color: "rgb(0,0,255)"})
@@ -64,15 +64,15 @@ function renderTable(arrofobj) {
       ttlwin1++;
       break;
       case 4:     
-      win2 = 1;   //any 5,third prize 
+      win2 = 1;   //second prize 
       ttlwin2++;
       break;
       case 3:
-      win3 = 1; //any 4,fifth prize
+      win3 = 1;   //third prize
       ttlwin3++;
       break;
       case 2:        
-      win4 = 1;   //any 3 eighth prize
+      win4 = 1;   //fourth prize
       ttlwin4++;
       break;
 
@@ -136,32 +136,35 @@ function renderTable(arrofobj) {
 
   function k_combinations(set, k) { 
 
+    let combs = [];
+
     if (k > set.length || k <= 0) {
-      return [];
+      return combs;
     }
 
     if (k == set.length) {
-      return [set];
+      combs = [set]
+      return combs;
     }
 
-    if (k == 1) {
-      let temp = [];
+    if (k == 1) {     
       set.forEach(function(mem) {
-       temp.push([mem]);    
+       combs.push([mem]);    
      })
-      return temp;
+      return combs;
     }
 
-    var combs = [];
+    
     set.forEach(function(mem,index) {
-      var head = set.slice(index, index + 1);
-      var tailcombs = k_combinations(set.slice(index + 1), k - 1);
+      let head = set.slice(index, index + 1);
+      let tailcombs = k_combinations(set.slice(index + 1), k - 1);
       tailcombs.forEach(function(mem){
         combs.push(head.concat(mem));  
       })
     })  
     return combs;
   }
+
 
   function factorial(num) {
     return num == 1 ? 1: num * factorial(num - 1)

@@ -20,16 +20,13 @@ $(function() {
   $("<a>").attr({id:"return",title:"返回首頁"})
   .text("\u21B6").appendTo('body');
 
-  //$("<a>").attr({href:"\acctchartdraw",id:"print",title:"列印"}).text("\u2399").appendTo('body');
   $("<br>").appendTo('body');
 
   $("#return").on("click",function() {
       $(this).attr("href","/")
   })
 
-
-
-  $.getJSON("acctChartAllx.json",function(result) {
+  $.getJSON("acctChartAll.json",function(result) {
          console.log("result from json file",result)
          let tempresult = result; //save resul original
 
@@ -67,7 +64,6 @@ $(function() {
 let acctchart = result;
 let sugChart = [];
 let acctChart = acctchart.filter(function(arr) {
-//acctChart = acctchart.filter(function(arr) {
       return arr[0].length === 4;
     });
 
@@ -77,7 +73,7 @@ let acctChart = acctchart.filter(function(arr) {
         data: acctChart[prop][1]
       })     
     }
-    console.log("sugChart: ",sugChart)
+    //console.log("sugChart: ",sugChart)
     $('#acctno').autocomplete({
       lookup: sugChart,
       minChars: 1,
@@ -95,7 +91,6 @@ let acctChart = acctchart.filter(function(arr) {
     });
 
 
-//
          renderTable();
 
          function renderTable() {

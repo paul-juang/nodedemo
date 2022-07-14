@@ -1,193 +1,165 @@
-var imgUrl1 = "https://apod.nasa.gov/apod/image/1808/fires_mccolgan_1731.jpg"; //***
-var imgUrl26 = "https://apod.nasa.gov/apod/image/1808/TahaGhouchkanluTLE2018.jpg"; //***
-var imgUrl3 = "https://apod.nasa.gov/apod/image/1808/IrisNebula_Sgueglia_2729.jpg";  //***
-var imgUrl4 = "https://apod.nasa.gov/apod/image/1807/QuasarJetDrawing_DESY_3508.jpg"; //*
-var imgUrl5 = "https://apod.nasa.gov/apod/image/1807/NGC5866_Block_1518.jpg";  //***
-var imgUrl6 = "https://apod.nasa.gov/apod/image/1808/NGC6744_HaLRGB_MP.jpg";  //***
-var imgUrl2 = "https://apod.nasa.gov/apod/image/1807/M57Ring_HubbleGendler_3000.jpg";//***
-var imgUrl46 = "https://apod.nasa.gov/apod/image/1809/atmosphere_geo5_2018235_eq2400.jpg"; //***
+let img1 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_1_poster.png?raw=true"
+let img2 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_2_poster.png?raw=true"
+let img3 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_3_poster.png?raw=true"
+let img4 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_4_poster.png?raw=true"
+let img5 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_5_poster.png?raw=true"
+let img6 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_6_poster.png?raw=true"
+
+let hero1 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_1_hero.jpg?raw=true"
+let hero2 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_2_hero.jpg?raw=true"
+let hero3 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_3_hero.jpg?raw=true"
+let hero4 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_4_hero.jpg?raw=true"
+let hero5 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_5_hero.jpg?raw=true"
+let hero6 = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/star_wars_episode_6_hero.jpg?raw=true"
 
 $(function() { 
 
- var gdata,imgUrl,nasaDescription,movies,movieNum;
- var imgUrlArr = [imgUrl1,imgUrl26,imgUrl3,imgUrl4,imgUrl5,imgUrl6];
+ fetch("/getHttps")
+ .then(res => res.json()    
+  )
+ .then(data => {
+      if (data.imgUrl) {
+        let imgNasa = data.imgUrl;
+        console.log("Nasa:", imgNasa);
+      } else{
+        console.log("Nasa: nothing");
+      }
+    })
+ .catch(err => { 
+     console.log("Nasa error: " + err.message);  
+   })
 
- $.ajax({
-  url:"/getHttps",
-  success: function(data) {
-    gdata = data;
-    if (gdata.imgUrl) {
-      imgUrl = gdata.imgUrl; 
-    }
-    else {
-      imgUrl = imgUrl46; 
-    }
-    renderHomePage();
-  } 
-});
+ let episoArr = [img1,img2,img3,img4,img5,img6];
+ let heroArr = [hero1,hero2,hero3,hero4,hero5,hero6];
+
+ renderHomePage()
 
  function renderHomePage() {
-/*
-    $("<a>").attr({id:"return",title:"返回首頁"})
-    .text("\u21B6").appendTo('body');
-
-    $("<br>").appendTo('body');
-
-    $("#return").on("click",function() {
-      $(this).attr("href","/home")
-    })
-*/
-  $.getJSON('movies.json',function(res){
 
    $("body").empty();
 
-   console.log(imgUrl)
-   var backGroundImage = "url(" + imgUrl + ")";
+   let starImage = "https://github.com/RyanHemrick/star_wars_app/blob/master/public/images/death_star_image.jpg?raw=true"
+   
    $('<div>').attr({id:"hero-image"}).css({width:"100%",height:400})
-   .append($('<img>').attr({src: imgUrl}).css({width:"100%",height:"100%"}))
-   .append($('<h1>').attr({id:"hero-title"}).text("Star War"))
-   .appendTo('body');  
-
-   movies = res.movies;
-   $('<nav>').attr({class:"navbar navbar-fixed-top"})
-   .append(
-    $('<div>').attr({class:"content-padding"})
-    )
+    .html(`
+        <img id='hero-image' src= ${starImage} style='width:100%; height:100%;'/>
+        <h1 id='hero-title'>Star War Movies</h1>
+      `)
    .appendTo('body');
+      
+   $.getJSON('movies.json',function(res) {
+       
+       let movies = res.movies;
 
-   var div1 = $('div.content-padding');
+       $('<nav>').attr({class:"navbar navbar-fixed-top"})
+        .html(`
+            <div class='content-padding'>
+              <ul class='nav navbar-nav navbar-right'>
+                <li>
+                  <a href='#' id='homeRef'>home</a>                 
+                </li>
 
-   $('<ul>').attr({class:"nav navbar-nav navbar-right"}) 
-   .append($('<li>')
-    .append($('<a>').attr({href:'#', id:"homeRef"}).text('home'))
-    )
-   .append($('<li>').attr({class:'dropdown'})
-    .append(
-     $('<a>').attr({href:'#',class:'dropdown-toggle','data-toggle':"dropdown"}).text('movies') 		
-     .append($('<i>').attr({class:'fa fa-chevron-down'}))						    
-     ))
-   .appendTo(div1);
+                <li class='dropdown'>
+                  <a href='#' class='dropdown-toggle' data-toggle='dropdown'>movies
+                     <i class='fa fa-chevron-down'></i>
+                  </a>
+                  <ul class=dropdown-menu>
 
-   var li2 = $('li.dropdown')
-   $('<ul>').attr({class:'dropdown-menu'})
-   .appendTo(li2)
+                    ${movies.map(function(movie) {
+                       return `
+                           <li class='dropdown'>
+                               <a href ='#' class='episode_link'>${movie.title}</a>
+                           </li>
+                       `
+                     }).join("")}
 
-   for (var i = 0; i < movies.length; i++) {
-    var episode_number = movies[i].episode_number;
-    $('<li>')
-    .append($('<a>').attr({href:"#",class:'episode_link'}).text(movies[i].title )
-     )
-    .appendTo($('ul.dropdown-menu'))    	
-  }		    
+                  </ul>                 
+                </li>
 
-  var divx = $('<div>').attr({id:'posters-wrapper',class:'content-padding clearfix'});
+              </ul>
+            </div> 
+            `)       
+       .appendTo('body');
 
-  for (var i = 0; i < movies.length; i++) { 
-   var num =  movies[i].episode_number + 1;
-   var poster =  movies[i].poster;
-   var src = imgUrlArr[i];
-   var title = movies[i].title;
-   $('<div>').attr({class:"poster"})
-   .append(
-    $('<a>').attr({href:"#",class: "posterHref"})
-    .append(
-     $('<img>').attr({src:src,class:'img-responsive'})
-     )
-    .append(
-     $('<div>').attr({class:'poster-info-overlay'})
-     .append(
-      $('<h3>').text(title)
-      )
-     .append(
-      $('<h4>').text('view more')
-      .append(
-       $('<i>').attr({class:'fa fa-chevron-down'})
-       )
-      )
-     )
-    )
-   .appendTo(divx)
+      $('<div>').attr({id:'posters-wrapper',class:'content-padding clearfix'})
+       .html(`
+          ${movies.map(function(movie, i) {
+            return `
+             <div class='poster'>
+              <a href='#' class='posterHref'>
+               <img src= ${episoArr[i]} class='img-responsive'/>
+               <div class='poster-info-overlay'>
+                  <h3>${movie.title}</h3>
+                  <h4>view more<i class='fa fa-chevron-down'></i></h4>               
+               </div>
+              </a>
+             </div>
+            `
+          }).join('')}                     
+      `)      
+     .appendTo('body')
+ 
+    $("#homeRef").on("click",function(event) {
+       event.preventDefault();
+       renderHomePage();
+     })
+
+     $(".episode_link").on("click",function(event) {
+        event.preventDefault();
+        let movieNum = $(".episode_link").index(this);
+        renderSinglePage(movies,movieNum);
+     })
+
+     $(".posterHref").on("click",function(event) {
+        event.preventDefault();
+        let movieNum = $(".posterHref").index(this);
+        renderSinglePage(movies,movieNum);
+     })     
+
+   }); 
+
  }
 
- divx.appendTo('body');
+ function renderSinglePage(movies,movieNum) {
 
- $("#homeRef").on("click",function(event) {
-   event.preventDefault();
-   renderHomePage();
- })
+    if ($("#posters-wrapper")) {
+      $("#posters-wrapper").remove(); 
+    }
 
- $(".episode_link").on("click",function(event) {
-   event.preventDefault();
-   movieNum = $(".episode_link").index(this);
-   renderSinglePage();
- })
+    if ($("#singleDiv1")) {
+      $("#singleDiv1").remove(); 
+    }
 
- $(".posterHref").on("click",function(event) {
-  event.preventDefault();
-  movieNum = $(".posterHref").index(this);
-  renderSinglePage();
-})
+    $("<div>").attr({id: "singleDiv1", class: "content-padding clearfix"})
+     .html(`
+         <div class='poster-wrapper'>
+           <img id='hero-image-single' src=${episoArr[movieNum]} class='img-responsive'>
+         </div>
+         <div id='descriptionWrapper' class='description-wrapper'>
+           <div class='description'>
+             <h2 class='movie-header'>Description</h2>
+             <p>${movies[movieNum].description}</p>
+           </div>
+           <div class='main_characters'>
+             <h2 class='movie-header'>Main Characters</h2>
+             <ul id='characterUl'>
+                ${movies[movieNum].main_characters.map(function(char) {
+                   return `
+                      <li>${char}</li>
+                   `
+                }).join('')}
+             </ul>
+           </div>
+         </div>
+      `)
+     .appendTo("body");
+     
+   let heroImage = heroArr[movieNum];
+   $("div #hero-image").attr({src: heroImage }); 
 
-}); 
-
-}
-
-function renderSinglePage() {
-
-  if ($("#posters-wrapper")) {
-    $("#posters-wrapper").remove(); 
-  }
-
-  if ($("#singleDiv1")) {
-    $("#singleDiv1").remove(); 
-  }
-
-
-  var movieSimgleDiv = $("<div>").attr({class: "content-padding clearfix",id: "singleDiv1"});
-  movieSimgleDiv.appendTo("body");
-
-  var src = imgUrlArr[movieNum];
-
-
-  $("<div>").attr({class: "poster-wrapper"})
-  .append($("<img>").attr({src: src, class: "img-responsive",id:"hero-image-single"}))		
-  .appendTo(movieSimgleDiv);
-
-  $("<div>").attr({class: "description-wrapper",id: "descriptionWrapper"})
-  .append(
-   $("<div>").attr({class: "description"})
-   .append(
-    $("<h2>").attr({class: "movie-header"}).text("Description")
-    )
-   .append(
-    $("<p>").text(movies[movieNum].description)
-
-    )
-   )
-  .append(
-   $("<div>").attr({class: "main_characters"})
-   .append(
-    $("<h2>").attr({class: "movie-header"}).text("Main Characters")
-    )
-   .append(
-    $("<ul>").attr({id:"characterUl"}))
-   )
-  .appendTo(movieSimgleDiv);
-
-
-  var main_characters = movies[movieNum].main_characters;
-
-  for (var i = 0; i < main_characters.length; i++) {
-   $("<li>").text(main_characters[i])
-   .appendTo($("#characterUl"));
- }   
-
- var heroTitleText = movies[movieNum].title;
- $("#hero-title").text(heroTitleText);
- 
- var heroImageSingleHeight = $("#descriptionWrapper").height();
- $("#hero-image-single").css({height: heroImageSingleHeight});
- 
-} 
+   let heroImageSingleHeight = $("#descriptionWrapper").height();
+   $("#hero-image-single").css({height: heroImageSingleHeight});
+   $("#hero-title").text(movies[movieNum].title); 
+ } 
 
 }); 

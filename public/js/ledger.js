@@ -9,16 +9,16 @@ $.extend(jQuery.expr[':'], {
 $(document).on('keypress', 'input,select', function (e) {
   if (e.which == 13) {
     e.preventDefault();
-  var $canfocus = $(':focusable');  // Get all focusable elements on the page
-  var index = $canfocus.index(this) + 1;
+    let $canfocus = $(':focusable');  
+    let index = $canfocus.index(this) + 1;
   if (index >= $canfocus.length) index = 0;
-  $canfocus.eq(index).focus();
+    $canfocus.eq(index).focus();
   }
 });
 
 $(function() {
-  $("#submit").prop("disabled",true)
-  $("#save").prop("disabled",true)
+  $("#submit").prop("disabled",true);
+  $("#save").prop("disabled",true);
 
   $("<a>").attr({id:"return",title:"返回首頁"})
   .css({color: "rgb(0,0,255)"})
@@ -29,56 +29,51 @@ $(function() {
       $(this).attr("href","/")
    })
 
-
-  let jsonarr = ["acctchart.json", "acctclassx.json"];
+  let jsonarr = ["acctchart.json", "acctclass.json"];
   
   async.map(jsonarr,function(json,callback) {
-    $.getJSON(json,function(result) {
-      callback(null,result)
-    })        
+    /*$.getJSON(json, function(result) {
+      callback(null,result);
+    })*/
+    fetch(json)
+    .then(res => res.json())
+    .then(data => callback(null,data))
+    .catch(err => callback(err))       
   },
   function(err,result) {
     if (err) {
-      console.log(err)
+      console.log(err);
     }
     let acctchart = result[0];
     let acctclass = result[1];
     
-    console.log("acctchart: ", acctchart)
-    console.log("acctclass: ", acctclass);
-    processLedger(acctchart,acctclass)
+    //console.log("acctchart: ", acctchart);
+    //console.log("acctclass: ", acctclass);
+    processLedger(acctchart,acctclass);
   });
 
   function processLedger(acctchart,acctclass) {
 
-    let today = new Date(); 
-    let dd = today.getDate();
-    let mm = today.getMonth()+1; //January is 0!
-    let yyyy = today.getFullYear();
-    if(dd<10) {
-      dd = '0'+dd
-    } 
-    if(mm<10) {
-      mm = '0'+mm
-    } 
-    today = yyyy + '-' + mm + '-' + dd;
+    let today = new Date().toISOString().split("T")[0]
+
     $("#today").val(today);
 
     $("table").hide();
     $("#acctno").focus(); 
 
-    let sugChart = [];
     let acctChart = acctchart.filter(function(arr) {
       return arr[0].length === 4;
     });
 
+    let sugChart = [];
     for(let prop in acctChart) {
       sugChart.push({
         value: acctChart[prop][0] + " " + acctChart[prop][1],
         data: acctChart[prop][1]
       })     
     }
-    console.log("sugChart: ",sugChart)
+    //console.log("sugChart: ",sugChart);
+
     $('#acctno').autocomplete({
       lookup: sugChart,
       minChars: 1,
@@ -95,7 +90,6 @@ $(function() {
         $("#dr").focus();
       }
     });
-
 
     $("#acctno").on("keypress",function() {
       $("#submit").prop("disabled",false);
@@ -121,8 +115,6 @@ $(function() {
         }
     });
 
-    
-
     $("#acctname").on("focus",function() {
       $("#dr").focus();
     })
@@ -131,21 +123,20 @@ $(function() {
        $("#dr").removeClass('danger');
        $("#cr").removeClass('danger');
        $("#errmsg1").text('');
-
+       $("#errmsg2").text('');
     })
 
     $("#cr").on("keypress",function() {
        $("#dr").removeClass('danger');
        $("#cr").removeClass('danger');
        $("#errmsg1").text('');
+       $("#errmsg2").text('');
     })
-
 
     let tempArr = [];
     
-    //$('#create-form').on('submit', function(e) {      
-    //  e.preventDefault();
     $('#submit').on('click', function() {
+  
       let createacctno = $('#acctno').val().trim();
       let createacctname = $('#acctname').val().trim();
       let createdr = $('#dr').val().trim();
@@ -196,7 +187,7 @@ $(function() {
       else {
        id = tempArr[tempArr.length-1]["id"] + 1;
      }
-     console.log("id:",id)
+     
      let obj = {
       date: createdate,
       acctno: createacctno,
@@ -207,6 +198,7 @@ $(function() {
       id: id,
       cindex: "index" + id
     };
+    
     tempArr.push(obj);
     ttldr += +createdr;
     ttlcr += +createcr;
@@ -215,12 +207,7 @@ $(function() {
     });
 
     $('table').on('click', '.update-button', function(e) {
-      /*
-      //for reference find element position when button is clicked
-      let cons = e.pageY + 16;    
-      let offsetadj = e.offsetY - 14;     
-      let top = cons - offsetadj;
-      */
+      
       let rowEl = $(this).closest('tr');     
       let acctnoEl = rowEl.find('.acctno');
       let acctnameEl = rowEl.find('.acctname');
@@ -233,12 +220,10 @@ $(function() {
       let newcr = rowEl.find('.cr').val().trim();
       let newref = rowEl.find('.ref').val();
       let cindex = rowEl.find('.index').text();   
-
-      
+     
       if (!newacctno) {
         rowEl.find('.acctno').addClass("danger");
         $("#errmsg2") .css({fontSize:"0.8em",color:"red"}) .text('代號不可空白');
-
         return false; 
       }
       else {
@@ -252,7 +237,6 @@ $(function() {
         else {
           rowEl.find('.acctname').val(acctclass[newacctno][0].acctname)
           newacctname = acctclass[newacctno][0].acctname;
-          //rowEl.find('.acctno').addClass("danger")
         }
       }
      
@@ -279,7 +263,7 @@ $(function() {
       rowEl.find('.cr').removeClass("danger");
       $("#errmsg2").text('');
 
-      for (var i = 0; i < tempArr.length; i++) {
+      for (let i = 0; i < tempArr.length; i++) {
         if (tempArr[i].cindex === cindex) {
           tempArr[i].acctno = newacctno;
           tempArr[i].acctname = newacctname;
@@ -290,15 +274,14 @@ $(function() {
         }
       } 
       renderTable();
-      console.log("update tempArr ",tempArr)
+      //console.log("update tempArr ",tempArr)
     });
-
 
     $('table').on('click', '.delete-button', function() {
       $("#msg").hide();
       let rowEl = $(this).closest('tr');      
       let cindex = rowEl.find('.index').text();   
-      for (var i = 0; i < tempArr.length; i++) {
+      for (let i = 0; i < tempArr.length; i++) {
         if (tempArr[i].cindex === cindex) {
          tempArr.splice(i,1);
          break;
@@ -315,7 +298,7 @@ $(function() {
       $('#cr').val("");   
       $('#ref').val("");   
       $('#acctno').focus();
-      var tbodyEl = $('tbody');
+      let tbodyEl = $('tbody');
       tbodyEl.html('');
       tempArr.forEach(function(obj) {
         $("<tr>") 
@@ -345,52 +328,42 @@ $(function() {
       }); 
     }
 
-    $("#save").on("click",function(e) {
-      let cons = e.pageY + 16;    
-      let offsetadj = e.offsetY - 14;     
-      let top = cons - offsetadj;
-
+    $("#save").on("click", async function() {
+     
       $("table").show();
+
       renderTable();
+
       let drttl = 0;
       let crttl = 0;
+
       tempArr.forEach(function(obj) {
        drttl += +obj.dr;
        crttl += +obj.cr;
-     })
+      })
+
      if (drttl !== crttl ) {
         $("#errmsg2").text('借貸不平衡');
         return false;
       }
+      
 
-      //
-      console.log("save tempArr ",tempArr);
-      console.log("save tempArr onSelect",tempArr);
-      console.log("save tempArr on enter keypress",tempArr);
+      //validation ok post  data to server
+      let res = await fetch("/ledger", {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ arrOfobj: tempArr })
+      })
+      let txt = await res.text();
+      console.log(txt)
       tempArr = [];
       renderTable();
-      $("#acctno").focus();   
-      
-/*
-// tempoarary turn off for testing - not submit data to server
-      $.ajax({
-        url: '/ledger',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ arrOfobj: tempArr }),
-        success: function(response) {
-          console.log(response);
-          $("#msg").hide();
-          tempArr = [];
-          renderTable();
-        }
-      });
-*/
+      $("#acctno").focus();
 
     }) //end of save on click
 
-    
   } //end of processLedger
   
 }) //end of $(function())
-
