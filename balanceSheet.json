@@ -1,1 +1,1 @@
-[{"流動資產":[{"acctname":"庫存現金","drttl":10000,"crttl":0},{"acctname":"銀行存款","drttl":10000000,"crttl":0},{"acctname":"應收帳款","drttl":200000,"crttl":0}]},{},{"流動負債":[{"acctname":"應付帳款","drttl":0,"crttl":50000}]},{},{"資本":[{"acctname":"資本","drttl":0,"crttl":10000000}]},{}]
+[{"流動資產":[{"acctname":"庫存現金","drttl":4900,"crttl":0},{"acctname":"銀行存款","drttl":10000000,"crttl":0},{"acctname":"應收帳款","drttl":290000,"crttl":0}]},{},{"流動負債":[{"acctname":"應付帳款","drttl":0,"crttl":50000}]},{},{"資本":[{"acctname":"資本","drttl":0,"crttl":10000000}]},{}]
