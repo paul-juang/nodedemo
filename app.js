@@ -4,7 +4,7 @@ const Stream = require("stream").Transform
 
 const fs = require('fs');
 
-//const async = require("async");
+const async = require("async");
 
 const express = require('express');
 
