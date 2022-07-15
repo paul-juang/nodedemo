@@ -2,8 +2,8 @@
   "name": "webapp",
   "version": "1.0.0",
   "engines": {
-   "node": "12.13.0"
-   },
+    "node": "12.13.0"
+  },
   "description": "a web node app",
   "main": "app.js",
   "scripts": {
