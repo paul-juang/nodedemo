@@ -81,7 +81,7 @@ General Styles
 
 @media screen and (max-width: 1234px) {
   body {
-    background-position: left center; 
+    background-position: bottom right; 
   }
 
   .nav-bar ul {
