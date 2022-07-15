@@ -1,20 +1,17 @@
 {
-  "name": "webapp",
+  "name": "socket",
   "version": "1.0.0",
-  "engines": {
-    "node": "12.13.0"
-  },
-  "description": "a web node app",
+  "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "connect-mongodb-session": "^3.1.1",
+    "connect-mongodb-session": "^2.4.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
