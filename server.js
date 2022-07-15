@@ -1,260 +1,106 @@
-
-const fs = require('fs');
-
+//chatroom demo
 const express = require('express');
-
-const path = require('path');
 
 const app = express();
 
-const mongoose = require('mongoose');
+const http = require('http');
 
-const TreeLayout = require('./models/treeData');
+const server = http.createServer(app);
 
-mongoose.Promise = global.Promise;
+const { Server } = require("socket.io");
 
-//mongoose.connect('mongodb://localhost:27017/treedatabase')
-mongoose.connect('mongodb://localhost:27017/treedatabase',{useNewUrlParser:true}) //not supported here why
-.then(function(){
-  console.log("Database connected ...");
-});
+const io = new Server(server);
 
-const bodyParser = require('body-parser');
+const path = require('path');
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 3000;
 
+const formatMessage = require('./utils/messages');
 
-//app.set
-app.set("view engine", "ejs");
+const {userJoin,getCurrentUser,userLeave,getRoomUsers} = require('./utils/users');
 
-app.set("views", path.join(__dirname, "views"));
+const votes = {yes:0, no:0, maybe:0} //for socket
 
+const botName = '聊天室';
 
-//middleware
-app.use(express.static(__dirname));
-
-app.use(express.static(path.join(__dirname,"public")));
-
-app.use(bodyParser.urlencoded({extended: true}));
-
-app.use(bodyParser.json());
-
-
-
-//agkmenu
-app.get("/",function(req, res) {
-  res.render("agkmenu");
+app.get("/", function(req, res) {
+  res.render("socket");
 });
 
-//agkdraw
-app.get("/agkdraw",function(req, res) {
-  res.render("agkdraw");
+app.get("/chatroom", function(req, res) {
+  let params = req.query;
+  res.render("chatroom", {params});
 });
 
+// Run when client connects
+io.on('connection', socket => {
+  socket.on('joinRoom', ({ username, room }) => {
+    const user = userJoin(socket.id, username, room); //save user to DB
 
-//for CRUD tree data
-app.get("/treedata",function(req, res) {
-  res.render("treedata_s");
-});
+    socket.join(user.room);
 
+    // Welcome current user
+    socket.emit('message', formatMessage(botName, `歡迎${username}加入${room}群組!`));
 
-// get
-app.get('/getdata', function(req, res) {
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        'message',
+        formatMessage(botName, `${user.username}加入聊天室`)
+      );
 
-  TreeLayout
-  .find({})
-  .select('_id name parent idx date') 
-  .exec()
-  .then(function(results){
-
-    let json = JSON.stringify(results);    
-
-      //write  json file testData.json vs treeData.js
-      fs.writeFile('treeData.json', json, 'utf8', function(err,result){ 
-
-        if(err) {
-          console.log(err);
-          res.send('error in get document');  //send to client
-        }else
-          res.send({treedatas: results});  //send to client
-        });
-
-    })  
-
-  .catch(function(err){
-   console.log(err);
-       res.send('find error');  //send to client
-     })
-
-}) 
-
-
-//post
-app.post('/treedata', function(req, res) {   
-  
-  let newname = req.body.name;
-  let newparent = req.body.parent;
-  let newidx = req.body.idx;
-  let newdate = req.body.date;
-
-
-  let newItem = new TreeLayout({
-    name: newname,
-    parent: newparent,
-    idx: newidx,
-    date: newdate
+    // Send users and room info
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    });
   });
 
-  newItem.save()
-  .then(function(result){
-    res.send('success in save');
-  })
-  .catch(function(err){
-    let error = new Error('save error');
-   console.log(error);
-   res.send('error in save');
- }) 
-  
-});
+  // Listen for chatMessage
+  socket.on('chatMessage', msg => {
+    const user = getCurrentUser(socket.id);
 
-
-//put - update document
-app.put('/treedata/:id', function(req, res) {
-
-  let id = req.params.id;
-  let newname = req.body.newname;
-  let newparent = req.body.newparent;
-  let newidx = req.body.newidx;
-  let newdate = req.body.newdate;
-
-
-      //query method
-      TreeLayout.update({_id:id}, {$set: {name: newname, parent: newparent, idx: newidx, date: newdate}})
-      .exec()
-      .then(function(result){
-        console.log(result)
-        res.send('success in update')
-      })
-      .catch(function(err){
-       console.log(err)
-       res.send('error in update')
-
-     })
-
-/*
-    TreeLayout.findByIdAndUpdate({_id: id }, {$set: {name: newname, parent: newparent, idx: newidx}},
-           function(err,result){
-
-             if (err) {
-                console.log(err);
-                res.send('update error');
-             }else {
-                res.send('successfully update document.')
-             }
-
-           });
-
-           */
-
-         });
-
-
-//delete
-app.delete('/treedata/:id', function(req, res) {
-
-  let id = req.params.id;
-
-    //query method
-    TreeLayout.remove({_id:id}).exec()
-    .then(function(result){
-      console.log(result)
-      res.send('success in delete')
-    })
-    .catch(function(err){
-     console.log(err)
-     res.send('error in delete')
-
-   })
-
- /* 
-    TreeLayout.findByIdAndRemove({_id: id },function(err,result){
-             if (err) {
-                console.log(err);
-                res.send('delete  error');
-             }else {
-                res.send('successfully delete document.')
-             }
-    })
-    */
-
+    io.to(user.room).emit('message', formatMessage(user.username, msg));
   });
 
+  // Runs when client disconnects
+  socket.on('disconnect', () => {
+    const user = userLeave(socket.id);
 
-//draw tree all entries
-app.get("/drawtree",function(req, res) {  
-  res.render("drawtree_s");
-});
+    if (user) {
+      io.to(user.room).emit(
+        'message',
+        formatMessage(botName, `${user.username}已經離開聊天室`)
+      );
 
-
-//draw tree by selection
-//send drawtree_x.html
-app.get("/drawtreex",function(req, res) {
-  res.render("drawtree_x");
-});
-
-
-//getJSON and draw tree
-app.get('/drawtreex/:name', function(req, res) {
-
-  let name = req.params.name;
-
-  TreeLayout
-  .find({})
-  .select('_id name parent idx') 
-  .exec()
-  .then(function(results){
-
-    let found = false;
-
-    for (var i = 0; i < results.length; i++) {
-
-      if (!found && results[i].name === name) {
-        
-        results = results.splice(i);
-
-      }
-      
+      // Send users and room info
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room)
+      });
     }
-    
-    results[0].parent = '0';
-    let json = JSON.stringify(results);    
-
-      //write  json file testData.json vs treeData.js
-      fs.writeFile('testDatax.json', json, 'utf8', function(err,result) { 
-
-        if(err) {
-          console.log(err);
-          res.send('error in write json file');  //send to client
-
-        }else
-          res.send('success write testDatax.json');  //send to client
-        });
-
-    })  
-
-  .catch(function(err){    
-       console.log(err);
-       res.send('error in draw tree layout');  //send to client
-     })
-
-}) 
-
-app.get("/agkdraw",function(req, res) {
-  res.render("agkdraw");
+  });
 });
 
-
-app.listen(PORT, function() {
-  console.log('Server listening on ' + PORT);
+app.get("/votes", function(req, res) {
+  res.render("votes", {votes});
 });
 
+io.on('connection', function(socket) {
+  
+  socket.on('submit vote',function(data) {  
+    let selection = data["selection"]
+    votes[selection] += 1   
+    io.sockets.emit("announce vote", votes)//io.emit("message", votes) also works
+    //socket.emit,socket.broadcast.emit
+  })
+})
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+});

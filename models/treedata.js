@@ -10,4 +10,4 @@ let treeSchema = new Schema ({
 
 });
 
-module.exports = mongoose.model('TreeLayout',treeSchema);
+module.exports = mongoose.model('TreeData',treeSchema);
