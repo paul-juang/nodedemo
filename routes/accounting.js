@@ -1,7 +1,5 @@
 const fs = require('fs');
 
-const async = require("async");
-
 const express = require('express');
 
 const router = express.Router();
